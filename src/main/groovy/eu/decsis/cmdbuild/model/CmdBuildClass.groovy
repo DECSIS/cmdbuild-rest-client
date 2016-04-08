@@ -8,13 +8,14 @@ class CmdBuildClass implements CmdBuildRepository<CmdBuildClass>{
     String name
     String parent
     boolean prototype
-    String resourceName() { return "classes" }
+
+    static String resourceName() { return "classes" }
 
     List<Card> getCards(){
         return this.<Card>listChildren("cards")
     }
 
-    List<Attribute> getAttributtes(){
+    List<Attribute> getAttributes(){
         return this.<Attribute>listChildren("attributes")
     }
 
@@ -32,11 +33,12 @@ class CmdBuildClass implements CmdBuildRepository<CmdBuildClass>{
         println "The following attributes are mandatory: ${mandatoryAttributes}"
     }
 
-    Card findCardBy(Map<String, String> filters) {
-        this.<Card>findChild('cards',filters)
+    Card findCardBy(Map<String, String> filters, Map<String, String> order = null) {
+        this.<Card>findChild('cards',filters, order)
     }
 
-    List<Card> findAllCardsBy(Map<String, String> filters, Integer limit = null) {
-        this.<Card>findAllChildren('cards',filters, limit)
+    List<Card> findAllCardsBy(Map<String, String> filters, Integer limit, Map<String, String> sortMap = null) {
+        this.<Card>findAllChildren('cards',filters, limit, sortMap)
     }
+
 }

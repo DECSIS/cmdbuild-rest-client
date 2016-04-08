@@ -2,9 +2,10 @@ package eu.decsis.cmdbuild.rest
 
 import com.mashape.unirest.http.HttpResponse
 import com.mashape.unirest.http.Unirest
-import groovy.json.JsonOutput
+import groovy.util.logging.Slf4j
 
 @Singleton
+@Slf4j
 class CmdBuildRestDatasource extends RestDatasource{
 
     static {
@@ -34,22 +35,21 @@ class CmdBuildRestDatasource extends RestDatasource{
         def resp = Unirest.post("${url}sessions")
             .body([ username: user, password: pass ])
             .asObject(java.lang.Object)
-        return resp.body.data._id
+        String sid = resp.body.data._id
+        log.info("New session  - ${sid}")
+        return sid
     }
 
     def doGet(String path, queryParameters = null) {
-        println "PATH: ${path}"
         HttpResponse<Object> resp = Unirest.get("${url}${path}")
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
-        def reqHash = "${path}${queryParameters?:""}".hashCode()
-        println "POST ${reqHash}:${JsonOutput.toJson(resp.body)}"
+        log.info("GET $path $queryParameters")
         return resp.body
     }
 
     def doPost(String path, payload, queryParameters = null) {
-        println "PATH: ${path}"
         def resp = Unirest.post("${url}${path}")
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
@@ -58,8 +58,7 @@ class CmdBuildRestDatasource extends RestDatasource{
         if( resp.status >= 300 ){
             throw new Exception("POST - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${resp.body?.error}")
         }
-        def reqHash = "${path}${payload?:""}${queryParameters?:""}".hashCode()
-        println "POST ${reqHash}:${JsonOutput.toJson(resp.body)}"
+        log.info("POST $path $payload $queryParameters")
         return resp.body
     }
 
