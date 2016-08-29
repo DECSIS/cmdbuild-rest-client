@@ -1,5 +1,8 @@
 package eu.decsis.cmdbuild.model
 
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode
 class CmdBuildClass implements CmdBuildRepository<CmdBuildClass>{
 
     String _id
@@ -8,6 +11,7 @@ class CmdBuildClass implements CmdBuildRepository<CmdBuildClass>{
     String name
     String parent
     boolean prototype
+    def defaultOrder
 
     static String resourceName() { return "classes" }
 
