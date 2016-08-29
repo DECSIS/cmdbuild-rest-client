@@ -1,5 +1,5 @@
 project.group = "eu.decsis.cmdbuild"
-project.version = "2.3-1.0"
+project.version = "0.0.2"
 
 buildscript {
 	repositories {
@@ -34,7 +34,7 @@ dependencies {
 	compile('org.slf4j:slf4j-api:1.7.20')
 	testRuntime("ch.qos.logback:logback-classic:$logbackVersion")
 	testRuntime("ch.qos.logback:logback-core:$logbackVersion")
-    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4-rc-2') {
 		exclude group:'org.codehaus.groovy'
 	}
 }
