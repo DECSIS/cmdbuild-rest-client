@@ -14,7 +14,20 @@ class CmdBuildClassTest extends Specification {
     }
 
     def "AddCard"() {
+        given:
+        def card = [:]
+        card.Code = "DELETEME"
+        card.Description = "Used for testing purposes"
 
+        when:
+        CmdBuildClass.getById("not_identified").addCard(card)
+        card = CmdBuildClass.getById("not_identified").findCardBy(["Code":"DELETEME"])
+
+        then:
+        card
+
+        cleanup:
+        CmdBuildClass.getById("not_identified").deleteCard(card)
     }
 
     def "FindCardBy"() {

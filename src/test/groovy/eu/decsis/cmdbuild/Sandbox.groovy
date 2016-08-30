@@ -9,7 +9,7 @@ class Sandbox extends Specification {
 
     def "sandbox"() {
         expect:
-        CmdBuildRestDatasource.configure("http://localhost:8888/openmaint/services/rest/v1/", "admin", "admin")
+        CmdBuildRestDatasource.configure("http://vm003:8789/cmdbuild/services/rest/v2/", "admin", "admin")
 
         CmdBuildClass building = CmdBuildClass.getById("Building")
         CmdBuildClass consumption = CmdBuildClass.getById("Consumption")
@@ -20,7 +20,7 @@ class Sandbox extends Specification {
                 EndDate      : "2016-03-31T00:00:00",
                 InsertionType: 67498,
                 Invoice      : null,
-                Item         : decsisDataCenterCard._id,
+                Item         : 33,
                 Quantity     : 155.0,
                 RecordType   : 67496,
                 StartDate    : '2016-03-01T00:00:00',

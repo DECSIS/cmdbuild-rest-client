@@ -45,6 +45,9 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
+        if( resp.status >= 300 ){
+            throw new Exception("GET - ${path} - ${resp.status} ${resp.statusText}, ${getErrorMessage(resp)}")
+        }
         log.info("GET $path $queryParameters")
         return resp.body
     }
@@ -56,10 +59,28 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .body(payload)
                 .asObject(java.lang.Object)
         if( resp.status >= 300 ){
-            throw new Exception("POST - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${resp.body?.error}")
+            throw new Exception("POST - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${getErrorMessage(resp)}")
         }
         log.info("POST $path $payload $queryParameters")
         return resp.body
     }
 
+    @Override
+    def doDelete(String path, queryParameters = null) {
+        def resp = Unirest.delete("${url}${path}")
+                .header("CMDBuild-Authorization",sessionId)
+                .queryString(queryParameters)
+                .asObject(java.lang.Object)
+        if( resp.status >= 300 ){
+            throw new Exception("DELETE - ${path} - ${resp.status} ${resp.statusText}, ${getErrorMessage(resp)}")
+        }
+        log.info("DELETE $path $queryParameters")
+        return resp.body
+    }
+
+    private static getErrorMessage(resp){
+        if(resp.body?.error == "not in json format"){
+            return resp.body?.detail
+        }
+    }
 }

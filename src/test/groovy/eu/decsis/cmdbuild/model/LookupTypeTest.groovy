@@ -37,6 +37,8 @@ class LookupTypeTest extends Specification {
         LookupTypeValue resLuv = res[0]
 
         then:
+        res instanceof List<LookupTypeValue>
+        resLuv instanceof LookupTypeValue
         res.size() == 3
         resLuv == luv
 

@@ -28,6 +28,10 @@ trait CmdBuildRepository<T> {
         restDatasource.doPost(childPath(childrenResourceName),children)
     }
 
+    public void deleteChildren(String childrenResourceName, def childrenId){
+        restDatasource.doDelete("${childPath(childrenResourceName)}/${childrenId}")
+    }
+
     public <C> List<C> listChildren(String childrenResourceName){
         restDatasource.doGet(childPath(childrenResourceName))?.data as List<C>
     }
