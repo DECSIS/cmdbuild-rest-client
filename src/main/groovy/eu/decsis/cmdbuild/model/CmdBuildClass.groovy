@@ -32,6 +32,10 @@ class CmdBuildClass implements CmdBuildRepository<CmdBuildClass>{
         }
     }
 
+    void deleteCard(Card card){
+        deleteChildren("cards",card.get_id())
+    }
+
     private void printMandatoryAttributes(){
         def mandatoryAttributes =  attributes.findAll { it.mandatory }.collect { "${it._id}(${it.type})"}.join(', ')
         println "The following attributes are mandatory: ${mandatoryAttributes}"

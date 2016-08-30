@@ -8,5 +8,8 @@ class Card implements CmdBuildRepository<Card>{
     def propertyMissing(String name, value) { dynamicProperties[name] = value }
     def propertyMissing(String name) { dynamicProperties= [name] }
 
+    void delete(){
+
+    }
 
 }
