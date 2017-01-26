@@ -32,7 +32,7 @@ class CmdBuildRestDatasource extends RestDatasource{
     private @Lazy String sessionId = auth();
 
     private String auth() {
-        def resp = Unirest.post("${url}sessions")
+        def resp = Unirest.post("${url}/sessions")
             .body([ username: user, password: pass ])
             .asObject(java.lang.Object)
         String sid = resp.body.data._id
@@ -72,6 +72,7 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
         if( resp.status >= 300 ){
+
             throw new Exception("DELETE - ${path} - ${resp.status} ${resp.statusText}, ${getErrorMessage(resp)}")
         }
         log.info("DELETE $path $queryParameters")
@@ -79,6 +80,7 @@ class CmdBuildRestDatasource extends RestDatasource{
     }
 
     private static getErrorMessage(resp){
+
         if(resp.body?.error == "not in json format"){
             return resp.body?.detail
         }

@@ -1,5 +1,5 @@
 project.group = "eu.decsis.cmdbuild"
-project.version = "0.0.2"
+project.version = "0.0.3"
 
 buildscript {
 	repositories {
