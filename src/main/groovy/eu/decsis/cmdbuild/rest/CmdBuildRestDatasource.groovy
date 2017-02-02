@@ -65,6 +65,19 @@ class CmdBuildRestDatasource extends RestDatasource{
         return resp.body
     }
 
+    def doPut(String path, payload, queryParameters = null) {
+        def resp = Unirest.put("${url}${path}")
+                .header("CMDBuild-Authorization",sessionId)
+                .queryString(queryParameters)
+                .body(payload)
+                .asObject(java.lang.Object)
+        if( resp.status >= 300 ){
+            throw new Exception("PUT - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${getErrorMessage(resp)}")
+        }
+        log.info("PUT $path $payload $queryParameters")
+        return resp.body
+    }
+
     @Override
     def doDelete(String path, queryParameters = null) {
         def resp = Unirest.delete("${url}${path}")
