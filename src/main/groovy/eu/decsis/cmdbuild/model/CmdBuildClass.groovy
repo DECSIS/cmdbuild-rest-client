@@ -18,7 +18,6 @@ class CmdBuildClass implements CmdBuildRepository<CmdBuildClass>{
     List<Card> getCards(){
         return this.<Card>listChildren("cards")
     }
-
     List<Attribute> getAttributes(){
         return this.<Attribute>listChildren("attributes")
     }
@@ -48,5 +47,7 @@ class CmdBuildClass implements CmdBuildRepository<CmdBuildClass>{
     List<Card> findAllCardsBy(Map<String, String> filters, Integer limit, Map<String, String> sortMap = null) {
         this.<Card>findAllChildren('cards',filters, limit, sortMap)
     }
+
+
 
 }

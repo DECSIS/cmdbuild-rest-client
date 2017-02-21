@@ -14,6 +14,10 @@ trait CmdBuildRepository<T> {
 
     abstract static String resourceName()
 
+    public void setDataSource(RestDatasource restDatasource) {
+        restDatasource
+    }
+
     public static List<T> list(){
         def rawList = restDatasource.doGet("${resourceName()}")?.data
         return rawList as List<T>

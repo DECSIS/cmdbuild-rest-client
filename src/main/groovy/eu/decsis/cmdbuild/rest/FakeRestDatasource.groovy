@@ -20,6 +20,11 @@ class FakeRestDatasource extends RestDatasource{
     }
 
     @Override
+    def doPut(String path, Object payload, Object queryParameters) {
+        return null
+    }
+
+    @Override
     def doDelete(String path, Object queryParameters) {
         return null
     }

@@ -41,7 +41,7 @@ class CmdBuildRestDatasource extends RestDatasource{
     }
 
     def doGet(String path, queryParameters = null) {
-        HttpResponse<Object> resp = Unirest.get("${url}${path}")
+        HttpResponse<Object> resp = Unirest.get(createUrl(url,path))
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
@@ -52,8 +52,10 @@ class CmdBuildRestDatasource extends RestDatasource{
         return resp.body
     }
 
+
+
     def doPost(String path, payload, queryParameters = null) {
-        def resp = Unirest.post("${url}${path}")
+        def resp = Unirest.post(createUrl(url,path))
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
                 .body(payload)
@@ -66,7 +68,7 @@ class CmdBuildRestDatasource extends RestDatasource{
     }
 
     def doPut(String path, payload, queryParameters = null) {
-        def resp = Unirest.put("${url}${path}")
+        def resp = Unirest.put(createUrl(url,path))
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
                 .body(payload)
@@ -80,7 +82,7 @@ class CmdBuildRestDatasource extends RestDatasource{
 
     @Override
     def doDelete(String path, queryParameters = null) {
-        def resp = Unirest.delete("${url}${path}")
+        def resp = Unirest.delete(createUrl(url,path))
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
@@ -97,5 +99,15 @@ class CmdBuildRestDatasource extends RestDatasource{
         if(resp.body?.error == "not in json format"){
             return resp.body?.detail
         }
+    }
+
+    String createUrl(String url, String path) {
+        if(url.endsWith("/") && path.startsWith("/")){
+            return "${url[0..-2]}${path}"
+        }else if(!url.endsWith("/") && !path.startsWith("/")){
+            return "${url}/${path}"
+        }
+
+        return "${url}${path}"
     }
 }
