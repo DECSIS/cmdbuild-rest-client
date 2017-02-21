@@ -39,6 +39,8 @@ dependencies {
 	}
 }
 
+
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.12'
+	gradleVersion = '3.3'
+	distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
