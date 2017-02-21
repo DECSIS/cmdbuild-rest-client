@@ -1,5 +1,5 @@
-project.group = "eu.decsis.cmdbuild"
-project.version = "0.0.3"
+project.group = "com.github.DECSIS"
+project.version = "0.0.5"
 
 buildscript {
 	repositories {
@@ -10,11 +10,6 @@ buildscript {
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'idea'
-
-jar {
-	baseName = 'cmdbuild-rest-client'
-	version = '0.0.1-SNAPSHOT'
-}
 
 repositories {
 	mavenCentral()
@@ -27,6 +22,7 @@ ext{
 	groovyVersion = '2.4.6'
 	logbackVersion = '1.1.7'
 }
+
 dependencies {
 	compile("org.codehaus.groovy:groovy:$groovyVersion")
 	compile("org.codehaus.groovy:groovy-json:$groovyVersion")
