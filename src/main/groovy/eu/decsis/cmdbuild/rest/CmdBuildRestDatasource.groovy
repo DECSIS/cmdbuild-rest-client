@@ -32,7 +32,7 @@ class CmdBuildRestDatasource extends RestDatasource{
     private @Lazy String sessionId = auth();
 
     private String auth() {
-        def resp = Unirest.post("${url}/sessions")
+        def resp = Unirest.post(createUrl(url,"/sessions"))
             .body([ username: user, password: pass ])
             .asObject(java.lang.Object)
         String sid = resp.body.data._id
