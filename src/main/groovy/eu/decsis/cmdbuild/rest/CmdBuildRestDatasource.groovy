@@ -45,6 +45,11 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
+        if( resp.status == 401 ){
+            if(auth()){
+                doGet(path,queryParameters)
+            }
+        }
         if( resp.status >= 300 ){
             throw new Exception("GET - ${path} - ${resp.status} ${resp.statusText}, ${getErrorMessage(resp)}")
         }
@@ -60,6 +65,11 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .queryString(queryParameters)
                 .body(payload)
                 .asObject(java.lang.Object)
+        if( resp.status == 401 ){
+            if(auth()){
+                doPost(path,payload,queryParameters)
+            }
+        }
         if( resp.status >= 300 ){
             throw new Exception("POST - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${getErrorMessage(resp)}")
         }
@@ -73,6 +83,11 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .queryString(queryParameters)
                 .body(payload)
                 .asObject(java.lang.Object)
+        if( resp.status == 401 ){
+            if(auth()){
+                doPut(path,payload,queryParameters)
+            }
+        }
         if( resp.status >= 300 ){
             throw new Exception("PUT - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${getErrorMessage(resp)}")
         }
@@ -86,6 +101,11 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .header("CMDBuild-Authorization",sessionId)
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
+        if( resp.status == 401 ){
+            if(auth()){
+                doDelete(path,queryParameters)
+            }
+        }
         if( resp.status >= 300 ){
 
             throw new Exception("DELETE - ${path} - ${resp.status} ${resp.statusText}, ${getErrorMessage(resp)}")
