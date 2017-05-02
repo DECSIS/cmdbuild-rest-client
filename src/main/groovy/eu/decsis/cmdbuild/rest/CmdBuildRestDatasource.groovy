@@ -29,7 +29,14 @@ class CmdBuildRestDatasource extends RestDatasource{
         this.instance.configured = true
     }
 
-    private @Lazy String sessionId = auth();
+    private String sessionId
+
+    String getSessionId(){
+        if(!sessionId){
+            sessionId = auth()
+        }
+        return sessionId
+    }
 
     private String auth() {
         def resp = Unirest.post(createUrl(url,"/sessions"))
@@ -40,15 +47,15 @@ class CmdBuildRestDatasource extends RestDatasource{
         return sid
     }
 
+
     def doGet(String path, queryParameters = null) {
         HttpResponse<Object> resp = Unirest.get(createUrl(url,path))
-                .header("CMDBuild-Authorization",sessionId)
+                .header("CMDBuild-Authorization",getSessionId())
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
         if( resp.status == 401 ){
-            if(auth()){
-                doGet(path,queryParameters)
-            }
+            sessionId = null
+            doGet(path,queryParameters)
         }
         if( resp.status >= 300 ){
             throw new Exception("GET - ${path} - ${resp.status} ${resp.statusText}, ${getErrorMessage(resp)}")
@@ -61,14 +68,13 @@ class CmdBuildRestDatasource extends RestDatasource{
 
     def doPost(String path, payload, queryParameters = null) {
         def resp = Unirest.post(createUrl(url,path))
-                .header("CMDBuild-Authorization",sessionId)
+                .header("CMDBuild-Authorization",getSessionId())
                 .queryString(queryParameters)
                 .body(payload)
                 .asObject(java.lang.Object)
         if( resp.status == 401 ){
-            if(auth()){
-                doPost(path,payload,queryParameters)
-            }
+            sessionId = null
+            doPost(path,payload,queryParameters)
         }
         if( resp.status >= 300 ){
             throw new Exception("POST - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${getErrorMessage(resp)}")
@@ -79,14 +85,13 @@ class CmdBuildRestDatasource extends RestDatasource{
 
     def doPut(String path, payload, queryParameters = null) {
         def resp = Unirest.put(createUrl(url,path))
-                .header("CMDBuild-Authorization",sessionId)
+                .header("CMDBuild-Authorization",getSessionId())
                 .queryString(queryParameters)
                 .body(payload)
                 .asObject(java.lang.Object)
         if( resp.status == 401 ){
-            if(auth()){
-                doPut(path,payload,queryParameters)
-            }
+            sessionId = null
+            doPut(path,payload,queryParameters)
         }
         if( resp.status >= 300 ){
             throw new Exception("PUT - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${getErrorMessage(resp)}")
@@ -98,13 +103,12 @@ class CmdBuildRestDatasource extends RestDatasource{
     @Override
     def doDelete(String path, queryParameters = null) {
         def resp = Unirest.delete(createUrl(url,path))
-                .header("CMDBuild-Authorization",sessionId)
+                .header("CMDBuild-Authorization",getSessionId())
                 .queryString(queryParameters)
                 .asObject(java.lang.Object)
         if( resp.status == 401 ){
-            if(auth()){
-                doDelete(path,queryParameters)
-            }
+            sessionId = null
+            doDelete(path,queryParameters)
         }
         if( resp.status >= 300 ){
 
