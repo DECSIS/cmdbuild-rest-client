@@ -55,7 +55,7 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .asObject(java.lang.Object)
         if( resp.status == 401 ){
             sessionId = null
-            doGet(path,queryParameters)
+            return doGet(path,queryParameters)
         }
         if( resp.status >= 300 ){
             throw new Exception("GET - ${path} - ${resp.status} ${resp.statusText}, ${getErrorMessage(resp)}")
@@ -74,7 +74,7 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .asObject(java.lang.Object)
         if( resp.status == 401 ){
             sessionId = null
-            doPost(path,payload,queryParameters)
+            return doPost(path,payload,queryParameters)
         }
         if( resp.status >= 300 ){
             throw new Exception("POST - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${getErrorMessage(resp)}")
@@ -91,7 +91,7 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .asObject(java.lang.Object)
         if( resp.status == 401 ){
             sessionId = null
-            doPut(path,payload,queryParameters)
+            return doPut(path,payload,queryParameters)
         }
         if( resp.status >= 300 ){
             throw new Exception("PUT - ${path} - ${resp.status} ${resp.statusText}, ${payload}, ${getErrorMessage(resp)}")
@@ -108,7 +108,7 @@ class CmdBuildRestDatasource extends RestDatasource{
                 .asObject(java.lang.Object)
         if( resp.status == 401 ){
             sessionId = null
-            doDelete(path,queryParameters)
+            return doDelete(path,queryParameters)
         }
         if( resp.status >= 300 ){
 
